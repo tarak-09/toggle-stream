@@ -37,6 +37,21 @@ describe('Feature Flags API', () => {
     createdFlagId = res.body.id;
   });
 
+  it('should create a new feature flag with rolloutPercentage', async () => {
+    const newFlag = {
+      name: 'test-flag-rollout',
+      description: 'A flag for testing rollout',
+      enabled: true,
+      rolloutPercentage: 25,
+    };
+
+    const res = await request(app).post('/api/flags').send(newFlag);
+    
+    expect(res.status).toBe(201);
+    expect(res.body.name).toBe(newFlag.name);
+    expect(res.body.rolloutPercentage).toBe(25);
+  });
+
   it('should validate missing name when creating', async () => {
     const res = await request(app).post('/api/flags').send({
       enabled: false,

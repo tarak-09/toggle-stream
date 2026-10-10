@@ -27,6 +27,7 @@ class FlagManager extends EventEmitter {
       name: input.name,
       description: input.description,
       enabled: input.enabled ?? false,
+      rolloutPercentage: input.rolloutPercentage,
       createdAt: now,
       updatedAt: now,
     };

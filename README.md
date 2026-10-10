@@ -48,7 +48,7 @@ The daemon will start on `http://localhost:3000` (configurable via the `PORT` en
 ```bash
 curl -X POST http://localhost:3000/api/flags \
   -H "Content-Type: application/json" \
-  -d '{"name":"new-ui","description":"Enable the new user interface","enabled":true}'
+  -d '{"name":"new-ui","description":"Enable the new user interface","enabled":true,"rolloutPercentage":50}'
 ```
 *Output:*
 ```json
@@ -57,8 +57,24 @@ curl -X POST http://localhost:3000/api/flags \
   "name": "new-ui",
   "description": "Enable the new user interface",
   "enabled": true,
+  "rolloutPercentage": 50,
   "createdAt": "2023-10-09T10:00:00.000Z",
   "updatedAt": "2023-10-09T10:00:00.000Z"
+}
+```
+
+**Evaluate flags for a specific client context:**
+
+```bash
+curl -X POST http://localhost:3000/api/evaluate \
+  -H "Content-Type: application/json" \
+  -d '{"contextId":"user-12345"}'
+```
+*Output:*
+```json
+{
+  "abc1234": true,
+  "default-flag": true
 }
 ```
 
