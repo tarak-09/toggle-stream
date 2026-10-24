@@ -4,11 +4,18 @@ import { flagManager } from '../services/FlagManager';
 
 const router = Router();
 
+const ruleSchema = z.object({
+  attribute: z.string(),
+  operator: z.enum(['eq', 'neq', 'in', 'contains']),
+  value: z.any(),
+});
+
 const createFlagSchema = z.object({
   name: z.string().min(1, 'Name is required'),
   description: z.string().optional(),
   enabled: z.boolean().optional(),
   rolloutPercentage: z.number().min(0).max(100).optional(),
+  rules: z.array(ruleSchema).optional(),
 });
 
 const updateFlagSchema = z.object({
@@ -16,6 +23,7 @@ const updateFlagSchema = z.object({
   description: z.string().optional(),
   enabled: z.boolean().optional(),
   rolloutPercentage: z.number().min(0).max(100).optional(),
+  rules: z.array(ruleSchema).optional(),
 });
 
 router.get('/', (req, res) => {

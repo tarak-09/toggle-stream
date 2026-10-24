@@ -52,6 +52,23 @@ describe('Feature Flags API', () => {
     expect(res.body.rolloutPercentage).toBe(25);
   });
 
+  it('should create a new feature flag with rules', async () => {
+    const newFlag = {
+      name: 'test-flag-rules',
+      description: 'A flag for testing rules',
+      enabled: true,
+      rules: [{ attribute: 'role', operator: 'eq', value: 'admin' }],
+    };
+
+    const res = await request(app).post('/api/flags').send(newFlag);
+    
+    expect(res.status).toBe(201);
+    expect(res.body.name).toBe(newFlag.name);
+    expect(res.body.rules).toBeDefined();
+    expect(res.body.rules.length).toBe(1);
+    expect(res.body.rules[0].attribute).toBe('role');
+  });
+
   it('should validate missing name when creating', async () => {
     const res = await request(app).post('/api/flags').send({
       enabled: false,
