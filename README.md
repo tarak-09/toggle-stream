@@ -39,6 +39,17 @@ npm run dev
 
 The daemon will start on `http://localhost:3000` (configurable via the `PORT` environment variable).
 
+## Storage
+
+By default, the daemon persists feature flags to a local SQLite database file named `flags.db` in the project root. This ensures that feature flag state is durable and survives service restarts. 
+You can customize the database file location by setting the `DATABASE_URL` environment variable:
+
+```bash
+DATABASE_URL=/path/to/custom-flags.db npm start
+```
+
+For test environments (`NODE_ENV=test`), an in-memory database is used automatically.
+
 ## Examples
 
 ### 1. Management API
